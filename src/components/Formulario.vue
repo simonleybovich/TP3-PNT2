@@ -33,7 +33,7 @@
         <!-- edad -->
         <div class="form-group">
           <label for="edad">edad</label>
-          <input type="number" class="form-control" id="edad" v-model.trim="formData.edad" @input="formDirty.edad = true"/>
+          <input type="number" class="form-control" id="edad" v-model.number="formData.edad" @input="formDirty.edad = true"/>
 
           <!-- validaciones -->
           <div
@@ -78,15 +78,17 @@
               <th>Edad</th>
               <th>Email</th>
             </tr>
-            <tr >
-              <td>{{ this.formData.nombre }}</td>
-              <td>{{ this.formData.edad }}</td>
-              <td>{{ this.formData.email }}</td>
+            <tr>
+              <td>{{ formData.nombre }}</td>
+              <td>{{ formData.edad }}</td>
+              <td>{{ formData.email }}</td>
             </tr>
           </table>
         </div>
         <button
-          type="submit" class="btn btn-primary my-3" v-if="this.camposValidos()" @click="this.enviar()">Enviar</button>
+          type="submit" class="btn btn-primary my-3" v-if="this.camposValidos()" @click="this.enviar()" :disabled="!this.camposValidos()">
+          Enviar
+        </button>
       </form>
     </section>
   </div>
@@ -139,7 +141,9 @@ export default {
       return this.nombreValido && this.edadValida && this.emailValido
     },
     enviar() {
-      console.log({...this.formData})
+      const datos = {...this.formData}
+      console.log(datos)
+
       this.formData = this.getInitialData()
       this.formDirty = this.getInitialData()
     },
